@@ -1,6 +1,8 @@
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 public class PhoneBook {
@@ -22,13 +24,18 @@ public class PhoneBook {
             ArrayList<String> list = new ArrayList<>();
             list.add(number);
             hm.put(key, list);
-            this.size += 1;
+            this.size++;
         }
+    }
+
+    public void delContact (String name) {
+        hm.remove(name);
+        this.size--;
     }
 
     public void clear() {
         hm.clear();
-        size = 0;
+        this.size = 0;
     }
 
     @Override
@@ -41,10 +48,15 @@ public class PhoneBook {
         for (String key : keys) {
             if (key.length() > maxName) maxName = key.length();
         }
-        for (Map.Entry<String, ArrayList<String>> el : hm.entrySet()) {
-            sb.append(el.getKey()).append(":").repeat(" ", seporator + maxName - el.getKey().length())
-            .append(el.getValue().toString().replace('[', ' ')
-            .replace(']', ' ')).append("\n");
+        
+        ArrayList<Map.Entry<String, ArrayList<String>>> list = new ArrayList<>(hm.entrySet());
+        list.sort(Comparator.comparingInt(entry -> -entry.getValue().size()));
+        
+        for (Entry<String, ArrayList<String>> pair : list) {
+            
+            sb.append(pair.getKey()).append(":").repeat(" ", seporator + maxName - pair.getKey().length())
+            .append(pair.getValue().toString().replace("[", "")
+            .replace("]", "")).append("\n");
         }
         sb.deleteCharAt(sb.length()-1);
         return sb.toString();

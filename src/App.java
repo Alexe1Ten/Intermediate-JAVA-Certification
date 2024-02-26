@@ -10,6 +10,8 @@ public class App {
 
         System.out.println(phonebook);
         System.out.println(phonebook.size());
+        phonebook.delContact("Катя");
+        System.out.println(phonebook);
         phonebook.clear();
         System.out.println(phonebook);
         System.out.println(phonebook.empty());
