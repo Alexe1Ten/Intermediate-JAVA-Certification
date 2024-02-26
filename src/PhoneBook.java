@@ -6,9 +6,9 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 public class PhoneBook {
-    HashMap<String, ArrayList<String>> hm = new HashMap<>();
+    private HashMap<String, ArrayList<String>> phone_book = new HashMap<>();
     private int size = 0;
-
+    
     int size(){
         return size;
     }
@@ -17,24 +17,24 @@ public class PhoneBook {
         return size == 0;
     }
 
-    public void put(String key, String number) {
-        if (hm.containsKey(key)) {
-            hm.get(key).add(number);
+    void put(String key, String number) {
+        if (phone_book.containsKey(key)) {
+            phone_book.get(key).add(number);
         } else {
             ArrayList<String> list = new ArrayList<>();
             list.add(number);
-            hm.put(key, list);
+            phone_book.put(key, list);
             this.size++;
         }
     }
 
-    public void delContact (String name) {
-        hm.remove(name);
+    void delContact (String name) {
+        phone_book.remove(name);
         this.size--;
     }
 
-    public void clear() {
-        hm.clear();
+    void clear() {
+        phone_book.clear();
         this.size = 0;
     }
 
@@ -42,14 +42,14 @@ public class PhoneBook {
     public String toString() {
         if (size == 0) return "The phone book is empty";
         StringBuilder sb = new StringBuilder();
-        Set<String> keys = hm.keySet();
+        Set<String> keys = phone_book.keySet();
         int seporator = 2;
         int maxName = 0;
         for (String key : keys) {
             if (key.length() > maxName) maxName = key.length();
         }
         
-        ArrayList<Map.Entry<String, ArrayList<String>>> list = new ArrayList<>(hm.entrySet());
+        ArrayList<Map.Entry<String, ArrayList<String>>> list = new ArrayList<>(phone_book.entrySet());
         list.sort(Comparator.comparingInt(entry -> -entry.getValue().size()));
         
         for (Entry<String, ArrayList<String>> pair : list) {
@@ -62,7 +62,7 @@ public class PhoneBook {
         return sb.toString();
     }
 
-    public HashMap<String, ArrayList<String>> getAll() {
-        return hm;
+    HashMap<String, ArrayList<String>> getAll() {
+        return phone_book;
     }
 }
